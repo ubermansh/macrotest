@@ -1,11 +1,15 @@
 package test;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Test {
 
@@ -21,7 +25,6 @@ public class Test {
 
 	// WebDriver
 	private WebDriver driver;
-
 	private WebElement webElement;
 
 	// Properties
@@ -44,7 +47,10 @@ public class Test {
 		ChromeOptions options = new ChromeOptions();
 		options.setCapability("ignoreProjectedModeSettings", true);
 		driver = new ChromeDriver();
+		
 
+		
+		
 		login_url = "https://bling-market.com/html/dh_member/login";
 		product_url = "https://bling-market.com/html/dh_product/prod_view/1903";
 		product_urlTest1 = "https://bling-market.com/html/dh_product/prod_view/1810";
@@ -87,10 +93,12 @@ public class Test {
 		// 로그인 후 상품페이지 이동
 		driver.get(product_urlTest1);
 
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		String stock = "";
 
 		do {
 			// 재고 여부 확인
+			wait.until(ExpectedConditions.presenceOfElementLocated((By.className("num"))));
 			webElement = driver.findElement(By.className("num"));
 			stock = webElement.getAttribute("innerText");
 			System.out.println("재고여부 : " + stock);
@@ -98,14 +106,8 @@ public class Test {
 			if (!stock.equals("품절")) {
 				break;
 			}
-
-			try {
-				Thread.sleep(5000);
-
+				wait.until(ExpectedConditions.presenceOfElementLocated((By.className("num"))));
 				driver.navigate().refresh();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 
 		} while (stock.equals("품절"));
 	}
@@ -121,21 +123,32 @@ public class Test {
 			Select option = new Select(driver.findElement(By.id("option1")));
 			
 			option.selectByIndex(1);
-		}
-		
-		try {
-			Thread.sleep(1000);
+
+
+		} else {
 			
 			webElement = driver.findElement(By.cssSelector("button.plain.btn02.orderbtn"));
 			webElement.click();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+
+			
 		}
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		webElement = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button.plain.btn02.orderbtn")));
+		webElement = driver.findElement(By.cssSelector("button.plain.btn02.orderbtn"));
+		webElement.click();
+
+
 
 	}
 
 	public void purchase() {
 		// 결제하기 버튼 클릭
+		
+		///WebDriverWait(로딩시간)
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		webElement = wait.until(ExpectedConditions.elementToBeClickable(By.name("writeBtn")));
+
 		webElement = driver.findElement(By.name("writeBtn"));
 		webElement.click();
 
