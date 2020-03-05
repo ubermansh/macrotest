@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 
 public class Test {
 	
@@ -13,10 +14,11 @@ public class Test {
 		Test salTest = new Test();
 		salTest.login();
 		salTest.order();
+		salTest.selectOption();
+		salTest.purchase();
 		
 	}
 	
-
 	//WebDriver
 	private WebDriver driver;
 	
@@ -29,7 +31,8 @@ public class Test {
 	//크롤링 할 URL
 	private String login_url;
 	private String product_url;
-	private String product_urlTest;
+	private String product_urlTest1; //옵션선택 있는 주소
+	private String product_urlTest2; //옵션선택 없는 주소
 	
 	public Test() {
 		super();
@@ -44,7 +47,8 @@ public class Test {
 		
 		login_url = "https://bling-market.com/html/dh_member/login";
 		product_url = "https://bling-market.com/html/dh_product/prod_view/1903";
-		product_urlTest = "https://bling-market.com/html/dh_product/prod_view/1810";
+		product_urlTest1 = "https://bling-market.com/html/dh_product/prod_view/1810";
+		product_urlTest2 = "https://bling-market.com/html/dh_product/prod_view/1640";
 	}
 	
 	public void login() {
@@ -87,12 +91,52 @@ public class Test {
 		driver.get(product_url);
 		
 		// 재고 여부 확인
+		
+		String stock = "품절";
+		while (stock.equals("품절")){
+			
+			webElement = driver.findElement(By.className("num"));
+			stock = webElement.getAttribute("innerText");
+			System.out.println("재고여부 : " + stock );
+			
+			if(!stock.equals("품절")) {
+				break;
+			}
+			
+			// 새로고침
+			driver.navigate().refresh();
+		}
+		
+	}
+	
+	public void selectOption() {
+		
+		// num이 0원이면 옵션 선택, 0원이아니면 바로구매하기 버튼 누르기	
 		webElement = driver.findElement(By.className("num"));
 		String stock = webElement.getAttribute("innerText");
-		System.out.println("재고여부 : " + stock );
 		
-		// 새로고침?
-//		driver.navigate().refresh();
+		if(stock.equals("0원(0개)")) {
+			System.out.println("puchase옵션선택 있는 곳");
+			Select option = new Select(driver.findElement(By.id("option1")));
+			option.selectByIndex(1);
+	
+			
+		} else {
+			System.out.println("purchase옵션선택 없는 곳");
+			webElement = driver.findElement(By.cssSelector("button.plain.btn02.orderbtn"));
+			webElement.click();
+		}
+		webElement = driver.findElement(By.cssSelector("button.plain.btn02.orderbtn"));
+		webElement.click();
+
+				
+		
+	}
+	
+	public void purchase() {
+		// 결제하기 버튼 클릭
+		webElement = driver.findElement(By.name("writeBtn"));
+		webElement.click();
 		
 	}
 	
