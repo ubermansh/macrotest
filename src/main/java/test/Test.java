@@ -90,6 +90,8 @@ public class Test {
 		String stock = "";
 
 		do {
+			stock = "";
+			
 			// 재고 여부 확인
 			webElement = driver.findElement(By.className("num"));
 			stock = webElement.getAttribute("innerText");
