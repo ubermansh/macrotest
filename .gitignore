@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/java,maven,windows,eclipse,java-web
-# Edit at https://www.gitignore.io/?templates=java,maven,windows,eclipse,java-web
+# Created by https://www.gitignore.io/api/java,linux,maven,gradle,windows,eclipse,java-web
+# Edit at https://www.gitignore.io/?templates=java,linux,maven,gradle,windows,eclipse,java-web
 
 ### Eclipse ###
 .metadata
@@ -100,6 +100,21 @@ hs_err_pid*
 ## ignoring target file
 target/
 
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
 ### Maven ###
 pom.xml.tag
 pom.xml.releaseBackup
@@ -138,4 +153,23 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/java,maven,windows,eclipse,java-web
+### Gradle ###
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+### Gradle Patch ###
+**/build/
+
+# End of https://www.gitignore.io/api/java,maven,eclipse

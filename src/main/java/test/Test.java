@@ -1,7 +1,5 @@
 package test;
 
-import java.time.Duration;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -47,10 +45,7 @@ public class Test {
 		ChromeOptions options = new ChromeOptions();
 		options.setCapability("ignoreProjectedModeSettings", true);
 		driver = new ChromeDriver();
-		
 
-		
-		
 		login_url = "https://bling-market.com/html/dh_member/login";
 		product_url = "https://bling-market.com/html/dh_product/prod_view/1903";
 		product_urlTest1 = "https://bling-market.com/html/dh_product/prod_view/1810";
@@ -106,8 +101,8 @@ public class Test {
 			if (!stock.equals("품절")) {
 				break;
 			}
-				wait.until(ExpectedConditions.presenceOfElementLocated((By.className("num"))));
-				driver.navigate().refresh();
+			wait.until(ExpectedConditions.presenceOfElementLocated((By.className("num"))));
+			driver.navigate().refresh();
 
 		} while (stock.equals("품절"));
 	}
@@ -121,31 +116,27 @@ public class Test {
 		if (stock.equals("0원(0개)")) {
 			System.out.println("puchase옵션선택 있는 곳");
 			Select option = new Select(driver.findElement(By.id("option1")));
-			
+
 			option.selectByIndex(1);
 
-
 		} else {
-			
+
 			webElement = driver.findElement(By.cssSelector("button.plain.btn02.orderbtn"));
 			webElement.click();
 
-			
 		}
-		
+
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		webElement = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button.plain.btn02.orderbtn")));
 		webElement = driver.findElement(By.cssSelector("button.plain.btn02.orderbtn"));
 		webElement.click();
 
-
-
 	}
 
 	public void purchase() {
 		// 결제하기 버튼 클릭
-		
-		///WebDriverWait(로딩시간)
+
+		/// WebDriverWait(로딩시간)
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		webElement = wait.until(ExpectedConditions.elementToBeClickable(By.name("writeBtn")));
 
